@@ -4,7 +4,8 @@ coverage
 .DS_STORE
 .nyc_output
 .idea
-.vscode/
+.vscode/*
+!.vscode/settings.json
 *.sublime-project
 *.sublime-workspace
 *.log
