@@ -7,11 +7,11 @@
 [![Build Status][badge-build]][build]
 [![Total Downloads][badge-downloads]][downloads]
 
-> A boilerplate for creating AdonisJS packages
+> A boilerplate for creating AdonisJS packages v7
 
 ## Introduction
 
-A opinionated boilerplate for creating AdonisJS packages.
+A opinionated boilerplate for creating AdonisJS packages v7.
 
 ## Documentation
 
