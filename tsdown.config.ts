@@ -9,8 +9,6 @@ export default defineConfig({
   minify: 'dce-only',
   fixedExtension: false,
   dts: true,
-  treeshake: false,
-  sourcemap: false,
   target: 'esnext',
   exports: true,
   // exports: {
@@ -21,6 +19,9 @@ export default defineConfig({
   //   },
   // }, // Add this back when need commands
   unbundle: true,
+  deps: {
+    skipNodeModulesBundle: true,
+  },
   // copy: [
   //   { from: 'stubs/**/*.stub', to: 'build/stubs', flatten: false },
   // ], // Add this back when we have a way to copy stubs
