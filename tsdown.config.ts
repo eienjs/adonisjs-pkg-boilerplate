@@ -1,10 +1,11 @@
 import { defineConfig } from 'tsdown';
+import { StaleGuardRecorder } from 'tsdown-stale-guard';
 
 export default defineConfig({
   entry: ['index.ts'],
   outDir: 'build',
   clean: true,
-  format: 'esm',
+  format: ['esm'],
   minify: 'dce-only',
   fixedExtension: false,
   dts: true,
@@ -23,4 +24,7 @@ export default defineConfig({
   // copy: [
   //   { from: 'stubs/**/*.stub', to: 'build/stubs', flatten: false },
   // ], // Add this back when we have a way to copy stubs
+  plugins: [
+    StaleGuardRecorder(),
+  ],
 });

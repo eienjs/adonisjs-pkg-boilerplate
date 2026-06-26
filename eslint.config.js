@@ -4,6 +4,8 @@ export default eienjs({
   adonisjs: true,
   typescript: {
     tsconfigPath: 'tsconfig.json',
-    erasableSyntaxOnly: true,
+    erasableSyntaxOnly: {
+      parameterProperties: false,
+    },
   },
 });

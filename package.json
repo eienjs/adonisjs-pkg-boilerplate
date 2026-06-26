@@ -2,7 +2,7 @@
   "name": "@eienjs/adonisjs-pkg-boilerplate",
   "type": "module",
   "version": "0.0.0",
-  "packageManager": "pnpm@10.30.3",
+  "packageManager": "pnpm@11.9.0",
   "description": "A opinionated boilerplate for AdonisJS packages",
   "author": "Fernando Isidro <luffynando@gmail.com>",
   "license": "MIT",
@@ -31,7 +31,8 @@
   },
   "scripts": {
     "prepare": "is-in-ci || husky",
-    "changelog": "auto-changelog -p && git add CHANGELOG.md",
+    "changelog": "auto-changelog -u -p",
+    "commitlint": "commitlint --edit",
     "index:commands": "adonis-kit index build/commands",
     "lint": "eslint . --fix",
     "lint:check": "eslint .",
@@ -42,12 +43,11 @@
     "tool:build": "pnpm run tool:code && pnpm run test",
     "prebuild": "pnpm run tool:code",
     "build": "tsdown",
-    "release": "np",
-    "version": "pnpm run build && pnpm run changelog"
+    "release": "release-it"
   },
   "peerDependencies": {
-    "@adonisjs/assembler": "^8.0.0",
-    "@adonisjs/core": "^7.0.0"
+    "@adonisjs/assembler": "^8.4.0",
+    "@adonisjs/core": "^7.3.4"
   },
   "peerDependenciesMeta": {
     "@adonisjs/assembler": {
@@ -55,32 +55,27 @@
     }
   },
   "devDependencies": {
-    "@adonisjs/assembler": "^8.0.0",
-    "@adonisjs/core": "^7.0.0",
+    "@adonisjs/assembler": "^8.4.0",
+    "@adonisjs/core": "^7.3.4",
     "@adonisjs/eslint-plugin": "^2.2.2",
     "@adonisjs/tsconfig": "^2.0.0",
-    "@commitlint/cli": "^20.4.3",
-    "@commitlint/config-conventional": "^20.4.3",
-    "@eienjs/eslint-config": "^1.10.0",
+    "@commitlint/cli": "^21.1.0",
+    "@commitlint/config-conventional": "^21.1.0",
+    "@eienjs/eslint-config": "^2.1.0",
     "@japa/assert": "^4.2.0",
     "@japa/runner": "^5.3.0",
     "@poppinss/ts-exec": "^1.4.4",
-    "@types/node": "^24.11.0",
-    "auto-changelog": "^2.5.0",
+    "@types/node": "^24.13.2",
+    "auto-changelog": "^2.6.0",
     "c8": "^11.0.0",
-    "eslint": "^10.0.2",
-    "eslint-plugin-erasable-syntax-only": "^0.4.0",
+    "eslint": "^10.5.0",
+    "eslint-plugin-erasable-syntax-only": "^0.4.2",
     "husky": "^9.1.7",
     "is-in-ci": "^2.0.0",
-    "np": "^11.0.2",
-    "tsdown": "^0.20.3",
-    "typescript": "^5.9.3"
-  },
-  "pnpm": {
-    "overrides": {
-      "eslint": "$eslint",
-      "eslint-json-compat-utils": "^0.2.2"
-    }
+    "release-it": "^20.2.0",
+    "tsdown": "^0.22.3",
+    "tsdown-stale-guard": "^0.1.2",
+    "typescript": "^6.0.3"
   },
   "c8": {
     "reporter": [
@@ -88,6 +83,7 @@
       "lcov"
     ],
     "exclude": [
+      "bin/**",
       "tests/**"
     ]
   },
@@ -102,12 +98,40 @@
   },
   "auto-changelog": {
     "template": "keepachangelog",
-    "hideCredit": true
+    "hideCredit": true,
+    "commitLimit": false
   },
-  "np": {
-    "message": "chore(release): :tada: %s",
-    "tag": "latest",
-    "branch": "main",
-    "testScript": "test"
+  "release-it": {
+    "git": {
+      "commit": true,
+      "tag": true,
+      "push": true,
+      "requireCleanWorkingDir": true,
+      "commitMessage": "chore(release): :tada: v${version}",
+      "tagAnnotation": "chore(release): :tada: v${version}"
+    },
+    "github": {
+      "release": true,
+      "web": true,
+      "releaseName": "Release v${version}"
+    },
+    "npm": {
+      "publish": true,
+      "publishPackageManager": "pnpm",
+      "publishArgs": [
+        "--no-git-checks"
+      ]
+    },
+    "hooks": {
+      "before:init": [
+        "pnpm run lint:check",
+        "pnpm run typecheck",
+        "pnpm test"
+      ],
+      "after:bump": [
+        "pnpm run build",
+        "pnpm run changelog"
+      ]
+    }
   }
 }
