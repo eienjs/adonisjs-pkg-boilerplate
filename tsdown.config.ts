@@ -1,5 +1,4 @@
 import { defineConfig } from 'tsdown';
-import { StaleGuardRecorder } from 'tsdown-stale-guard';
 
 export default defineConfig({
   entry: ['index.ts'],
@@ -19,13 +18,7 @@ export default defineConfig({
   //   },
   // }, // Add this back when need commands
   unbundle: true,
-  deps: {
-    skipNodeModulesBundle: true,
-  },
   // copy: [
   //   { from: 'stubs/**/*.stub', to: 'build/stubs', flatten: false },
   // ], // Add this back when we have a way to copy stubs
-  plugins: [
-    StaleGuardRecorder(),
-  ],
 });
